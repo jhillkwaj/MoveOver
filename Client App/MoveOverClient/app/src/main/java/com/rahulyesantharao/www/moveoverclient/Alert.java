@@ -1,6 +1,9 @@
 package com.rahulyesantharao.www.moveoverclient;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 /**
@@ -75,7 +80,31 @@ public class Alert extends Fragment {
                 onStopPressed();
             }
         });
+        TextView textView1 = (TextView) v.findViewById(R.id.alert_textView1);
+        TextView textView2 = (TextView) v.findViewById(R.id.alert_textView2);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/AvenirLTStdBook.otf");
+        textView1.setTypeface(typeface);
+        textView2.setTypeface(typeface);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        RelativeLayout rl = (RelativeLayout) getActivity().findViewById(R.id.alert_bg);
+
+        ColorDrawable c1 = new ColorDrawable(getResources().getColor(R.color.colorPrimary));
+        ColorDrawable c2 = new ColorDrawable(getResources().getColor(R.color.background));
+
+        AnimationDrawable a = new AnimationDrawable();
+
+        a.addFrame(c1, 720);
+        a.addFrame(c2, 300);
+        a.setOneShot(false);
+        a.setEnterFadeDuration(300);
+        a.setExitFadeDuration(300);
+        rl.setBackground(a);
+        a.start();
+        super.onResume();
     }
 
     // TODO: hook method into UI event

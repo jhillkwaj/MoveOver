@@ -24,6 +24,7 @@
         android:layout_gravity="center"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/font_size" />
+        android:textSize="@dimen/font_size2"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

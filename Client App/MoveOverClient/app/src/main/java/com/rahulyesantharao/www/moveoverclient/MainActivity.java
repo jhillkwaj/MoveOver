@@ -1,13 +1,18 @@
 package com.rahulyesantharao.www.moveoverclient;
 
+
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +64,11 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
 
 //        setContentView(R.layout.activity_main);
 
+        SpannableString s = new SpannableString("MOVEOVER");
+        s.setSpan(new TypefaceSpan("bigNoodle.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(s);
+        // Firebase code
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -106,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
-
-                //This is where I think you will want your code
+                if(poweredOn) turnOnAlert(true, true, true);
             }
 
             @Override
             public void onKeyExited(String key) {
                 System.out.println(String.format("Key %s is no longer in the search area", key));
+                if(poweredOn) turnOffAlert();
             }
 
             @Override

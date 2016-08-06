@@ -6,4 +6,9 @@
         android:title="TURN ON"
         android:icon="@drawable/ic_off"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/info"
+        android:title="@string/info"
+        app:showAsAction="never"/>
+
 </menu>
