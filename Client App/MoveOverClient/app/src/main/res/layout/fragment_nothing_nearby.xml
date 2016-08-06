@@ -25,6 +25,7 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/font_size2"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:id="@+id/textview_nothing" />
 
 </RelativeLayout>

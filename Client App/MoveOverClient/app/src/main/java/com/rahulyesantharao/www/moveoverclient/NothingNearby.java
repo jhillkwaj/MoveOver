@@ -1,19 +1,18 @@
 package com.rahulyesantharao.www.moveoverclient;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NothingNearby.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link NothingNearby#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -47,7 +46,11 @@ public class NothingNearby extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nothing_nearby, container, false);
+        View v = inflater.inflate(R.layout.fragment_nothing_nearby, container, false);
+        TextView textView = (TextView) v.findViewById(R.id.textview_nothing);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/AvenirLTStdBook.otf");
+        textView.setTypeface(typeface);
+        return v;
     }
 
     @Override
