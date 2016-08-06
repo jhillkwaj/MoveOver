@@ -1,16 +1,23 @@
 package com.rahulyesantharao.www.moveoverclient;
 
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements Alert.OnFragmentInteractionListener {
 
     private String TAG_NOTHING = "nothing";
     private String TAG_ALERT = "alert";
     private NothingNearby nFrag = null;
+    private boolean poweredOn = false;
+    private MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,17 +33,52 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         }
         else {
             Log.d(getClass().getSimpleName(), "Not null");
-            getSupportFragmentManager().beginTransaction().hide(test).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(test).commit();
         }
 
         turnOnAlert(true, true, true);
 //        setContentView(R.layout.activity_main);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return(super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.power:
+                if(poweredOn) { // turn off
+
+//                    item.setIcon(R.drawable.off);
+                    item.setTitle("OFF");
+                    poweredOn = false;
+                }
+                else { // turn on
+//                    item.setIcon(R.drawable.on);
+                    item.setTitle("ON");
+                    poweredOn = true;
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     // plays alert, vibrates, sends push notification, and adds alert fragment
     public void turnOnAlert(boolean police, boolean ambulance, boolean firetruck) {
 
+        // vibrate
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        long[] pattern = {0,500,200};
+        v.vibrate(pattern, 0);
 
+        // alarm
+        mediaPlayer = MediaPlayer.create(this, R.raw.uwotm8);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
         getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
@@ -73,12 +115,16 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     }
 
     public void turnOffAlertNoise() {
-
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.cancel();
+        mediaPlayer.pause();
     }
 
     @Override
     public void onStopPressed() {
         turnOffAlertNoise();
+        findViewById(R.id.stopAlertBtn).setClickable(false);
+        findViewById(R.id.stopAlertBtn).setEnabled(false);
         Log.d(getClass().getSimpleName(), "Stop Pressed");
     }
 }
