@@ -20,23 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
     <include layout="@layout/content_main"/>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:weightSum="1">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Info text"
-            android:layout_weight="0.20"
-            android:gravity="center"
-            android:textSize="25sp" />
-        <ToggleButton
-            android:id="@+id/toggleButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
-    </LinearLayout>
+
+
 </android.support.design.widget.CoordinatorLayout>

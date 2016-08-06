@@ -64,13 +64,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addListenerOnButton();
-        final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(db));
-        startActivity(intent);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        setRequestedOrientation(ActivityInfo
-                .SCREEN_ORIENTATION_PORTRAIT);
+        
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
 
@@ -109,7 +105,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         mAuth.addAuthStateListener(mAuthListener);
 
-        signInAnonymously();
+        if(!signin)
+            signInAnonymously();
+        else
+        {
+            final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(db));
+            startActivity(intent);
+        }
+
     }
 
     public void addListenerOnButton() {
