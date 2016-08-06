@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -45,7 +46,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity  {
 
     private LocationManager locationManager = null;
     private LocationListener locationListener = null;
@@ -61,16 +62,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addListenerOnButton();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
 
-
+        locationListener = new MyLocationListener();
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         //fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
                     uid = user.getUid();
 
-                    updateLocations(0,0);
+
                 } else {
                     // User is signed out
                     Log.d("Login", "onAuthStateChanged:signed_out");
@@ -128,27 +130,30 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 //if "ON" then turn on location signal
                 //if "off" then turn off location signal
 
+                Log.d("test","click");
+                permission();
+
             }
 
         });
 
     }
-    @Override
-    public void onClick(View v) {
-        locationListener = new MyLocationListener();
 
+    public void permission()
+    {
+
+        Log.d("test","permission start");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            Log.v("Exit", "Loop ");
-            onClick(v);
+            Log.v("test", "permission fail");
         }
         else{
+            Log.v("test","gps start");
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, locationListener);
-            Log.v("working","working");
+
         }
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -232,9 +237,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     //Call this to update the gps location
     public void updateLocations(double lat, double lon)
     {
+        Log.v("test","location send");
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc");
         GeoFire geoFire = new GeoFire(ref);
         geoFire.setLocation(uid, new GeoLocation(lat, lon));
     }
     String db = "https://www.youtube.com/watch?v=oHg5SJYRHA0";
 }
+5
