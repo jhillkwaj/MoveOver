@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +33,15 @@ import android.widget.ToggleButton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -39,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private LocationListener locationListener = null;
     private static final String TAG = "Debug";
     private ToggleButton toggleButton1;
+
+    FirebaseAuth mAuth;
+    String uid;
+    static boolean signin = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +79,33 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         .setAction("Action", null).show();
             }
         });*/
+
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Login", "onAuthStateChanged:signed_in:" + user.getUid());
+
+
+                    uid = user.getUid();
+
+                    updateLocations(0,0);
+                } else {
+                    // User is signed out
+                    Log.d("Login", "onAuthStateChanged:signed_out");
+                    signin = false;
+                }
+                // ...
+            }
+        };
+
+
+        mAuth.addAuthStateListener(mAuthListener);
+
+        signInAnonymously();
     }
 
     public void addListenerOnButton() {
@@ -122,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
+
     private class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location loc) {
@@ -146,4 +190,42 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
+
+
+    private void signInAnonymously() {
+        if(!signin) {
+            // [START signin_anonymously]
+            mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(Task<AuthResult> task) {
+                    Log.d("Login Anon", "signInAnonymously:onComplete:" + task.isSuccessful());
+                    signin = task.isSuccessful();
+
+                    // If sign in fails, display a message to the user. If sign in succeeds
+                    // the auth state listener will be notified and logic to handle the
+                    // signed in user can be handled in the listener.
+                    if (!task.isSuccessful()) {
+                        Log.w("Login Anon", "signInAnonymously", task.getException());
+
+                    } else {
+                        Log.w("Login Fail", "Failed to sign it");
+                    }
+                }
+
+
+            });
+        }
+
+
+        // [END signin_anonymously]
+    }
+
+
+    //Call this to update the gps location
+    public void updateLocations(float lat, float lon)
+    {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc");
+        GeoFire geoFire = new GeoFire(ref);
+        geoFire.setLocation(uid, new GeoLocation(lat, lon));
+    }
 }
