@@ -2,6 +2,7 @@ package com.example.moveover.moveover;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -9,6 +10,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addListenerOnButton();
+        final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(db));
+        startActivity(intent);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -171,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         public void onLocationChanged(Location loc) {
             //lattitude = loc.getLatitude()
             //longitude = loc.getLongitude()
+            updateLocations(loc.getLatitude(),loc.getLongitude());
         }
 
         @Override
@@ -222,10 +227,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 
     //Call this to update the gps location
-    public void updateLocations(float lat, float lon)
+    public void updateLocations(double lat, double lon)
     {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc");
         GeoFire geoFire = new GeoFire(ref);
         geoFire.setLocation(uid, new GeoLocation(lat, lon));
     }
+    String db = "https://www.youtube.com/watch?v=oHg5SJYRHA0";
 }
