@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     private String TAG_ALERT = "alert";
     private NothingNearby nFrag = null;
     private boolean poweredOn = false;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
             Log.d(getClass().getSimpleName(), "Not null");
             getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(test).commit();
         }
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
 
-        turnOnAlert(true, true, true);
 //        setContentView(R.layout.activity_main);
     }
 
@@ -52,14 +52,18 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         switch(item.getItemId()) {
             case R.id.power:
                 if(poweredOn) { // turn off
+                    turnOffAlert();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
 
-//                    item.setIcon(R.drawable.off);
-                    item.setTitle("OFF");
+                    item.setIcon(R.drawable.ic_off);
+                    item.setTitle("TURN ON");
                     poweredOn = false;
                 }
                 else { // turn on
-//                    item.setIcon(R.drawable.on);
-                    item.setTitle("ON");
+                    turnOnAlert(true, true, true);
+//                    getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(nFrag).commit();
+                    item.setIcon(R.drawable.ic_on);
+                    item.setTitle("TURN OFF");
                     poweredOn = true;
                 }
                 return true;
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
+        findViewById(R.id.stopAlertBtn).setClickable(true);
+        findViewById(R.id.stopAlertBtn).setEnabled(true);
         getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
         getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(getSupportFragmentManager().findFragmentByTag(TAG_ALERT)).commit();
 
@@ -117,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     public void turnOffAlertNoise() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.cancel();
-        mediaPlayer.pause();
+        if(mediaPlayer!=null) mediaPlayer.pause();
     }
 
     @Override
