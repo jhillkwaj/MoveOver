@@ -91,7 +91,7 @@ public class Alert extends Fragment {
         ImageView imageView = (ImageView) v.findViewById(R.id.imageView2);
         if(mAmbulance) imageView.setImageResource(R.drawable.hospital);
         else if(mPolice) imageView.setImageResource(R.drawable.police_badge);
-        else if(mFiretruck) imageView.setImageResource(R.drawable.ic_action_name);
+        else if(mFiretruck) imageView.setImageResource(R.drawable.firetruck);
         else imageView.setImageResource(R.drawable.hospital);
         return v;
     }
