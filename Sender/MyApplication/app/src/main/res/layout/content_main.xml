@@ -15,30 +15,21 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to MoveOver for First Responders\n\n\nTouch to start or stop broadcasting\n\n"
-        android:id="@+id/mainText"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="30dp" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:text="BROADCASTING"
         android:id="@+id/broadcastText"
         android:gravity="center"
-        android:textColor="@color/red"
-        android:layout_below="@id/mainText"
-        android:textSize="40dp" />
+        android:textColor="@color/green"
+        android:textSize="40sp"
+        android:layout_marginTop="30dp" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="INACTIVE"
         android:id="@+id/inactiveText"
         android:gravity="center"
-        android:textColor="@color/blue"
-        android:layout_below="@id/mainText"
-        android:textSize="40dp" />
+        android:textColor="@color/red"
+        android:textSize="40sp"
+        android:layout_marginTop="30dp" />
 
 
     <ToggleButton
@@ -46,17 +37,48 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="ToggleButton"
-        android:textColor="@color/red"
-        android:background="@color/blue"
+        android:textOn="@string/on_text"
+        android:textOff="@string/off_text"
+        android:textSize="30sp"
         android:layout_gravity="center_horizontal|center"
         android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="0dp" />
     <Spinner
         android:id="@+id/options_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:layout_above="@id/toggleButton1"/>
+        android:textSize="30sp"
+        android:layout_above="@id/toggleButton1"
+        android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/broadcastText"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:id="@+id/imageView"
+            android:src="@drawable/sirenred" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+    </LinearLayout>
 
 </RelativeLayout>

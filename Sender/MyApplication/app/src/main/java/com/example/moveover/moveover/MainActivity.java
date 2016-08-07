@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,15 +19,20 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -56,7 +63,7 @@ public class MainActivity extends AppCompatActivity  {
     String uid;
     static boolean signin = false;
     static String type = "Police";
-
+    private ImageView imageView = null;
 
 
 
@@ -67,18 +74,51 @@ public class MainActivity extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addListenerOnButton();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SpannableString s = new SpannableString("MoveOver Sender");
+        s.setSpan(new TypefaceSpan(this, "ProximaNova.otf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(s);
+
+        final Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/ProximaNova.otf");
 
         inactiveText = (TextView) findViewById(R.id.inactiveText);
         broadcastText = (TextView) findViewById(R.id.broadcastText);
         broadcastText.setVisibility(View.INVISIBLE);
+        inactiveText.setTypeface(tf);
+        broadcastText.setTypeface(tf);
+
+        toggleButton1 = (ToggleButton) findViewById(R.id.toggleButton1);
+        toggleButton1.setTypeface(tf);
+        addListenerOnButton();
+
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         Spinner spinner = (Spinner) findViewById(R.id.options_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.options_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.options_array)) {
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTypeface(tf);//Typeface for normal view
+                ((TextView) v).setTextColor(Color.parseColor("#FFFFFF"));
+                ((TextView) v).setTextSize(getResources().getDimension(R.dimen.spinnersize));
+                return v;
+            }
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
+                View v = super.getDropDownView(position, convertView, parent);
+                ((TextView) v).setTypeface(tf);//Typeface for dropdown view
+//                ((TextView) v).setBackgroundColor(Color.parseColor("#BBfef3da"));
+                ((TextView) v).setTextColor(Color.parseColor("#FFFFFF"));
+                ((TextView) v).setTextSize(getResources().getDimension(R.dimen.spinnersize));
+                return v;
+            }
+        };
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -135,9 +175,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void addListenerOnButton() {
-
-        toggleButton1 = (ToggleButton) findViewById(R.id.toggleButton1);
-
         toggleButton1.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -150,10 +187,12 @@ public class MainActivity extends AppCompatActivity  {
                 if(active) {
                     broadcastText.setVisibility(View.VISIBLE);
                     inactiveText.setVisibility(View.INVISIBLE);
+                    imageView.setImageResource(R.drawable.sirengreen);
                 }
                 else{
                     broadcastText.setVisibility(View.INVISIBLE);
                     inactiveText.setVisibility(View.VISIBLE);
+                    imageView.setImageResource(R.drawable.sirenred);
                 }
                 numberSelected = spin.getNumSelected();
                 if(numberSelected == 0) {
@@ -191,27 +230,27 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     private class MyLocationListener implements LocationListener {

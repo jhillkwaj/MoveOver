@@ -4,10 +4,13 @@
     <string name="toggle_turn_on">Turn On</string>
     <string name="toggle_turn_off">Turn Off</string>
     <string name="btn_display">Display</string>
+    <string name="off_text">Start Broadcasting</string>
+    <string name="on_text">Stop Broadcasting</string>
     <color name="grey">#616161</color>
     <color name="blue">#42A5F5</color>
     <color name="red">#EF5350</color>
     <color name="white">#FFFFFF</color>
+    <color name="green">#63F574</color>
     <string-array name="options_array">
         <item>Police</item>
         <item>Fire</item>
