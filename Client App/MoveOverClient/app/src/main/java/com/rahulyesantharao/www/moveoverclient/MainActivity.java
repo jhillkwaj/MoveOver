@@ -16,7 +16,7 @@ import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity implements Alert.OnFragmentInteractionListener {
@@ -34,10 +34,12 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     private static final String STATE_ALARM = "alarm";
     private static final String STATE_NOISE = "noise";
 
+    public static  MainActivity mainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mainActivity = this;
         if(savedInstanceState!=null) {
             Log.d(getClass().getSimpleName(), "saved states");
             poweredOn = savedInstanceState.getBoolean(STATE_POWER);
@@ -159,8 +161,13 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         if(!mediaPlayer.isPlaying()) mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
-        findViewById(R.id.stopAlertBtn).setClickable(true);
-        findViewById(R.id.stopAlertBtn).setEnabled(true);
+        Button b = (Button)findViewById(R.id.stopAlertBtn);
+        try {
+            b.setClickable(true);
+        }
+        catch (Exception e)
+        {}
+        b.setEnabled(true);
         getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
 //        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(getSupportFragmentManager().findFragmentByTag(TAG_ALERT)).commit();
 

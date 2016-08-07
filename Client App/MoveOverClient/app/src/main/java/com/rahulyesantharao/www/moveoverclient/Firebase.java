@@ -33,6 +33,8 @@ public class Firebase {
     MainActivity mainActivity = null;
     GeoQuery geoQuery = null;
 
+    int lastService = 0;
+
     public Firebase(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
@@ -60,6 +62,7 @@ public class Firebase {
         };
 
         mAuth.addAuthStateListener(mAuthListener);
+        signInAnonymously();
     }
 
     private void signInAnonymously() {
@@ -85,61 +88,29 @@ public class Firebase {
 
         //call this method with the latest user location
     public void addLocListener(double lat, double lon){
-        if(lat == 0 && lon == 0)
+        if((lat == 0 && lon == 0) || !login)
         { return; }
+
+        mainActivity = MainActivity.mainActivity;
 
         Log.d("Test",lat + " " + lon);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc");
 
         GeoFire geoFire = new GeoFire(ref);
 
-        if(mainActivity.poweredOn) {
+
 
 
             if (geoQuery == null) {
 
-
+                Log.d("Test","Make Geo");
                 //geoFire.setLocation("test-loc", new GeoLocation(24.7853889, -122.4056973));
                 geoQuery = geoFire.queryAtLocation(new GeoLocation(lat, lon), distance);
                 geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
                     @Override
                     public void onKeyEntered(String key, GeoLocation location) {
                         System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
-                        if (mainActivity.poweredOn){
-                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc/"+key);
 
-                             ref.child("type").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot snapshot) {
-                                    //Log.d("test",""+snapshot.getValue());
-                                    if(snapshot.getValue().equals("Fire"))
-                                    {
-                                        Log.d("test","Fire");
-                                        mainActivity.turnOnAlert(false,false,true);
-                                    }
-                                    else if(snapshot.getValue().equals("Ambulance"))
-                                    {
-                                        Log.d("test","Ambulance");
-                                        mainActivity.turnOnAlert(false,true,false);
-                                    }
-                                    else
-                                    {
-                                        Log.d("test","Police");
-                                        mainActivity.turnOnAlert(true,false,false);
-                                    }
-                                }
-
-                                 @Override
-                                 public void onCancelled(DatabaseError databaseError) {
-                                     Log.e("Error",databaseError.toString());
-                                     mainActivity.turnOnAlert(true,true,true);
-                                 }
-
-
-                            });
-
-
-                        }
                     }
 
                     @Override
@@ -151,6 +122,57 @@ public class Firebase {
                     @Override
                     public void onKeyMoved(String key, GeoLocation location) {
                         System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
+
+                        if (mainActivity.poweredOn){
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc/"+key);
+
+                            ref.child("type").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    Log.d("test",""+snapshot.getValue());
+
+                                    //this should not be null but it is sometime. Make it so it is not and remove this
+                                    if(snapshot == null || snapshot.getValue() == null)
+                                    {
+                                        callLast();
+                                        return;
+                                    }
+
+                                    if(snapshot.getValue().equals("Fire"))
+                                    {
+                                        Log.d("test","Fire");
+                                        mainActivity.turnOnAlert(false,false,true);
+                                        lastService = 0;
+                                    }
+                                    else if(snapshot.getValue().equals("Ambulance"))
+                                    {
+                                        Log.d("test","Ambulance");
+                                        mainActivity.turnOnAlert(false,true,false);
+                                        lastService = 1;
+                                    }
+                                    else if(snapshot.getValue().equals("Police"))
+                                    {
+                                        Log.d("test","Police");
+                                        mainActivity.turnOnAlert(true,false,false);
+                                        lastService = 2;
+                                    }
+                                    else
+                                    {
+                                        callLast();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.e("Error",databaseError.toString());
+                                    callLast();
+                                }
+
+
+                            });
+
+
+                        }
                     }
 
                     @Override
@@ -168,6 +190,23 @@ public class Firebase {
 
 
             }
+
+    }
+
+
+    private void callLast()
+    {
+        if(lastService == 0)
+        {
+            mainActivity.turnOnAlert(false,false,true);
+        }
+        else if(lastService == 1)
+        {
+            mainActivity.turnOnAlert(false,true,false);
+        }
+        else
+        {
+            mainActivity.turnOnAlert(true,false,false);
         }
     }
 }
