@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -86,6 +87,12 @@ public class Alert extends Fragment {
         textView1.setTypeface(typeface);
         textView2.setTypeface(typeface);
         stop.setTypeface(typeface);
+
+        ImageView imageView = (ImageView) v.findViewById(R.id.imageView2);
+        if(mAmbulance) imageView.setImageResource(R.drawable.hospital);
+        else if(mPolice) imageView.setImageResource(R.drawable.police_badge);
+        else if(mFiretruck) imageView.setImageResource(R.drawable.ic_action_name);
+        else imageView.setImageResource(R.drawable.hospital);
         return v;
     }
 
