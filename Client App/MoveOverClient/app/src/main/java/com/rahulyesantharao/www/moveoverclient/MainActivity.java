@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         v.vibrate(pattern, 0);
 
         // alarm
-        mediaPlayer.start();
+        if(!mediaPlayer.isPlaying()) mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
         findViewById(R.id.stopAlertBtn).setClickable(true);
