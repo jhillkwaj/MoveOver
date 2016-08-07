@@ -91,38 +91,47 @@ public class Firebase {
 
         GeoFire geoFire = new GeoFire(ref);
 
-        if(geoQuery != null)
-            geoQuery.removeAllListeners();
+        if(mainActivity.poweredOn) {
 
-        //geoFire.setLocation("test-loc", new GeoLocation(24.7853889, -122.4056973));
-        geoQuery = geoFire.queryAtLocation(new GeoLocation(lat, lon), distance);
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
-                if(mainActivity.poweredOn) mainActivity.turnOnAlert(true, true, true);
-            }
 
-            @Override
-            public void onKeyExited(String key) {
-                System.out.println(String.format("Key %s is no longer in the search area", key));
-                if(mainActivity.poweredOn) mainActivity.turnOffAlert();
-            }
+            if (geoQuery == null) {
 
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
-            }
 
-            @Override
-            public void onGeoQueryReady() {
-                System.out.println("All initial data has been loaded and events have been fired!");
-            }
+                //geoFire.setLocation("test-loc", new GeoLocation(24.7853889, -122.4056973));
+                geoQuery = geoFire.queryAtLocation(new GeoLocation(lat, lon), distance);
+                geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+                    @Override
+                    public void onKeyEntered(String key, GeoLocation location) {
+                        System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
+                        if (mainActivity.poweredOn) mainActivity.turnOnAlert(true, true, true);
+                    }
 
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-                System.err.println("There was an error with this query: " + error);
+                    @Override
+                    public void onKeyExited(String key) {
+                        System.out.println(String.format("Key %s is no longer in the search area", key));
+                        if (mainActivity.poweredOn) mainActivity.turnOffAlert();
+                    }
+
+                    @Override
+                    public void onKeyMoved(String key, GeoLocation location) {
+                        System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
+                    }
+
+                    @Override
+                    public void onGeoQueryReady() {
+                        System.out.println("All initial data has been loaded and events have been fired!");
+                    }
+
+                    @Override
+                    public void onGeoQueryError(DatabaseError error) {
+                        System.err.println("There was an error with this query: " + error);
+                    }
+                });
+            } else {
+                geoQuery.setCenter(new GeoLocation(lat, lon));
+
+
             }
-        });
+        }
     }
 }
