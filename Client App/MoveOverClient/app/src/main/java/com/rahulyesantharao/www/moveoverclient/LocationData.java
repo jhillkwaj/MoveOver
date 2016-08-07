@@ -63,11 +63,7 @@ public class LocationData implements LocationListener {
             if (ActivityCompat.checkSelfPermission(contextActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 permission();
             }
-            else
-            {
-                final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.youtube.com/watch?v=oHg5SJYRHA0"));
-                contextActivity.startActivity(intent);
-            }
+
         }
         else{
             Log.v("test","gps start");
