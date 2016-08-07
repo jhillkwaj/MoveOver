@@ -162,20 +162,14 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         findViewById(R.id.stopAlertBtn).setClickable(true);
         findViewById(R.id.stopAlertBtn).setEnabled(true);
         getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(getSupportFragmentManager().findFragmentByTag(TAG_ALERT)).commit();
+//        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(getSupportFragmentManager().findFragmentByTag(TAG_ALERT)).commit();
 
 
-        // detach nothing fragment
-//        if(!nFrag.isDetached()) {
-//            getSupportFragmentManager().beginTransaction().detach(nFrag).commit();
-//        }
-        // delete any previous alert fragments
-//        Fragment old = getSupportFragmentManager().findFragmentByTag(TAG_ALERT);
-//        if(old!=null) {
-//            getSupportFragmentManager().beginTransaction().remove(old).commit();
-//        }
-        // add new alert fragment
-//        getSupportFragmentManager().beginTransaction().add(android.R.id.content, Alert.newInstance(police, ambulance, firetruck), TAG_ALERT).commit();
+        Fragment old = getSupportFragmentManager().findFragmentByTag(TAG_ALERT);
+        if(old!=null) {
+            getSupportFragmentManager().beginTransaction().remove(old).commit();
+        }
+        getSupportFragmentManager().beginTransaction().add(android.R.id.content, Alert.newInstance(police, ambulance, firetruck), TAG_ALERT).commit();
     }
 
     public void turnOffAlert() {
@@ -183,16 +177,14 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         turnOffAlertNoise();
 
         // show nothing fragment and hide alert fragment
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(getSupportFragmentManager().findFragmentByTag(TAG_ALERT)).commit();
+//        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(getSupportFragmentManager().findFragmentByTag(TAG_ALERT)).commit();
         getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(nFrag).commit();
 
         // delete any previous alert fragments
-//        Fragment old = getSupportFragmentManager().findFragmentByTag(TAG_ALERT);
-//        if(old!=null) {
-//            getSupportFragmentManager().beginTransaction().remove(old).commit();
-//        }
-        // attach nothing fragment
-//        getSupportFragmentManager().beginTransaction().attach(nFrag).commit();
+        Fragment old = getSupportFragmentManager().findFragmentByTag(TAG_ALERT);
+        if(old!=null) {
+            getSupportFragmentManager().beginTransaction().remove(old).commit();
+        }
     }
 
     public void turnOffAlertNoise() {
