@@ -17,13 +17,15 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/stop"
         android:id="@+id/stopAlertBtn"
-        android:layout_below="@+id/ll_alert_tv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <LinearLayout
         android:orientation="horizontal"
