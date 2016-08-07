@@ -23,19 +23,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +43,9 @@ public class MainActivity extends AppCompatActivity  {
     private LocationListener locationListener = null;
     private static final String TAG = "Debug";
     private ToggleButton toggleButton1;
+    private boolean active = false;
+    private TextView inactiveText = null;
+    private TextView broadcastText = null;
 
     FirebaseAuth mAuth;
     String uid;
@@ -68,6 +62,10 @@ public class MainActivity extends AppCompatActivity  {
         addListenerOnButton();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        inactiveText = (TextView) findViewById(R.id.inactiveText);
+        broadcastText = (TextView) findViewById(R.id.broadcastText);
+        broadcastText.setVisibility(View.INVISIBLE);
 
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
@@ -129,7 +127,15 @@ public class MainActivity extends AppCompatActivity  {
                 //do something. result is "gettext"
                 //if "ON" then turn on location signal
                 //if "off" then turn off location signal
-
+                active=!active;
+                if(active) {
+                    broadcastText.setVisibility(View.VISIBLE);
+                    inactiveText.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    broadcastText.setVisibility(View.INVISIBLE);
+                    inactiveText.setVisibility(View.VISIBLE);
+                }
                 Log.d("test","click");
                 permission();
 

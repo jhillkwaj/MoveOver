@@ -13,26 +13,44 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/helloText"/>
+        android:text="Welcome to MoveOver for First Responders\n\n\nTouch to start or stop broadcasting\n\n"
+        android:id="@+id/mainText"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Info text"
-        android:id="@+id/mainText"
-        android:layout_below="@+id/helloText"
+        android:text="BROADCASTING"
+        android:id="@+id/broadcastText"
         android:gravity="center"
-        android:textSize="25dp" />
+        android:textColor="@color/red"
+        android:layout_below="@id/mainText"
+        android:textSize="40dp" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="INACTIVE"
+        android:id="@+id/inactiveText"
+        android:gravity="center"
+        android:textColor="@color/blue"
+        android:layout_below="@id/mainText"
+        android:textSize="40dp" />
+
+
     <ToggleButton
         android:id="@+id/toggleButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mainText"
         android:text="ToggleButton"
-        android:layout_marginTop="20dp"
-        android:gravity="center"/>
+        android:textColor="@color/red"
+        android:background="@color/blue"
+        android:layout_gravity="center_horizontal|center"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
