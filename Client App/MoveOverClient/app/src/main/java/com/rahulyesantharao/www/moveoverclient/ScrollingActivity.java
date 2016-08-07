@@ -18,6 +18,7 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle(R.string.info);
 
         TextView textView = (TextView) findViewById(R.id.info_textview);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/ProximaNovaCondensed.otf");
