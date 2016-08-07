@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     public boolean poweredOn = false;
     private boolean alarmOn = false;
     private boolean noiseOn = false;
-    private boolean playerPrep = true;
 
     private static final String STATE_POWER = "power";
     private static final String STATE_ALARM = "alarm";
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
 
 //        mediaPlayer = new MediaPlayer();
 //        mediaPlayer.setDataSource(R.raw.uwotm8);
-        mediaPlayer = MediaPlayer.create(this, R.raw.uwotm8);
+        mediaPlayer = MediaPlayer.create(this, R.raw.moveover);
 //        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 //            @Override
 //            public void onPrepared (MediaPlayer player){
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         v.vibrate(pattern, 0);
 
         // alarm
-        if(!mediaPlayer.isPlaying() && playerPrep) mediaPlayer.start();
+        if(!mediaPlayer.isPlaying()) mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
         findViewById(R.id.stopAlertBtn).setClickable(true);
@@ -200,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         noiseOn = false;
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.cancel();
-        if(mediaPlayer!=null && playerPrep) mediaPlayer.pause();
+        if(mediaPlayer!=null) mediaPlayer.pause();
     }
 
     @Override
