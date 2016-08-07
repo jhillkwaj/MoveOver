@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MoveOver</string>
+    <string name="nothing_nearby">No alerts nearby!</string>
+    <string name="alert1">Watch Out!</string>
+    <string name="alert2">Emergency Vehicle Approaching</string>
+    <string name="stop">STOP</string>
+    <string name="info">Info/Rules</string>
+
+</resources>
