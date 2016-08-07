@@ -156,6 +156,15 @@ public class MainActivity extends AppCompatActivity  {
                     inactiveText.setVisibility(View.VISIBLE);
                 }
                 numberSelected = spin.getNumSelected();
+                if(numberSelected == 0) {
+                    type = "Police";
+                }
+                else if(numberSelected == 1) {
+                    type = "Fire Truck";
+                }
+                else if(numberSelected == 2) {
+                    type = "Ambulance";
+                }
                 Log.v("numberSelected",numberSelected+"");
                 Log.d("test","click");
                 permission();
