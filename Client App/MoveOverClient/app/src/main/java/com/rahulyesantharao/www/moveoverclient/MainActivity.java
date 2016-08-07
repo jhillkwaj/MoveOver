@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     public boolean poweredOn = false;
     private boolean alarmOn = false;
     private boolean noiseOn = false;
+    private boolean playerPrep = true;
 
     private static final String STATE_POWER = "power";
     private static final String STATE_ALARM = "alarm";
@@ -85,9 +86,18 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(s);
 
+//        mediaPlayer = new MediaPlayer();
+//        mediaPlayer.setDataSource(R.raw.uwotm8);
         mediaPlayer = MediaPlayer.create(this, R.raw.uwotm8);
+//        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared (MediaPlayer player){
+//                playerPrep = true;
+//            }
+//        });
 //        mediaPlayer.prepareAsync();
         mediaPlayer.setLooping(true);
+
 
         Firebase firebase = new Firebase(this);
         LocationData data = new LocationData(this,firebase);
@@ -100,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
 
         return(super.onCreateOptionsMenu(menu));
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -149,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         v.vibrate(pattern, 0);
 
         // alarm
-        if(!mediaPlayer.isPlaying()) mediaPlayer.start();
+        if(!mediaPlayer.isPlaying() && playerPrep) mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
         findViewById(R.id.stopAlertBtn).setClickable(true);
@@ -192,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         noiseOn = false;
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.cancel();
-        if(mediaPlayer!=null) mediaPlayer.pause();
+        if(mediaPlayer!=null && playerPrep) mediaPlayer.pause();
     }
 
     @Override
