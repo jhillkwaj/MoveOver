@@ -43,7 +43,7 @@
 
     <ToggleButton
         android:id="@+id/toggleButton1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="ToggleButton"
         android:textColor="@color/red"
@@ -55,6 +55,8 @@
     <Spinner
         android:id="@+id/options_spinner"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:layout_above="@id/toggleButton1"/>
 
 </RelativeLayout>
