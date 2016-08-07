@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
 
 //        mediaPlayer = new MediaPlayer();
 //        mediaPlayer.setDataSource(R.raw.uwotm8);
-        mediaPlayer = MediaPlayer.create(this, R.raw.moveover);
+        mediaPlayer = MediaPlayer.create(this, R.raw.moveoveraud);
 //        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 //            @Override
 //            public void onPrepared (MediaPlayer player){

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,10 +90,22 @@ public class Alert extends Fragment {
         stop.setTypeface(typeface);
 
         ImageView imageView = (ImageView) v.findViewById(R.id.imageView2);
-        if(mAmbulance) imageView.setImageResource(R.drawable.hospital);
-        else if(mPolice) imageView.setImageResource(R.drawable.police_badge);
-        else if(mFiretruck) imageView.setImageResource(R.drawable.firetruck);
-        else imageView.setImageResource(R.drawable.hospital);
+        if(mAmbulance) {
+            Log.d(getClass().getSimpleName(), "Ambulance Alert!");
+            imageView.setImageResource(R.drawable.hospital);
+        }
+        else if(mPolice) {
+            Log.d(getClass().getSimpleName(), "Police Alert!");
+            imageView.setImageResource(R.drawable.police_badge);
+        }
+        else if(mFiretruck) {
+            Log.d(getClass().getSimpleName(), "Firetruck Alert!");
+            imageView.setImageResource(R.drawable.firetruck);
+        }
+        else {
+            Log.d(getClass().getSimpleName(), "NO PARAMETER ALERT!");
+            imageView.setImageResource(R.drawable.hospital);
+        }
         return v;
     }
 
