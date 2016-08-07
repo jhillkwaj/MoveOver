@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoveOver</string>
+    <string name="app_name">MoveOver Sender</string>
     <string name="action_settings">Settings</string>
     <string name="toggle_turn_on">Turn On</string>
     <string name="toggle_turn_off">Turn Off</string>

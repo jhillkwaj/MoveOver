@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity  {
     FirebaseAuth mAuth;
     String uid;
     static boolean signin = false;
+    static String type = "Police";
+
+
 
 
 
@@ -247,6 +250,8 @@ public class MainActivity extends AppCompatActivity  {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geo-loc");
         GeoFire geoFire = new GeoFire(ref);
         geoFire.setLocation(uid, new GeoLocation(lat, lon));
+        DatabaseReference typeRef = FirebaseDatabase.getInstance().getReference("geo-loc/" + uid + "/type");
+        typeRef.setValue(type);
     }
     String db = "https://www.youtube.com/watch?v=oHg5SJYRHA0";
 }
