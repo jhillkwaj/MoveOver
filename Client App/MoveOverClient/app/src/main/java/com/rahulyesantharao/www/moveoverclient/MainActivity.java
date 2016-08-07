@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         actionBar.setTitle(s);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.uwotm8);
+//        mediaPlayer.prepareAsync();
         mediaPlayer.setLooping(true);
 
         Firebase firebase = new Firebase(this);
