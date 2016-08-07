@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(s);
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.uwotm8);
+        mediaPlayer.setLooping(true);
 
         Firebase firebase = new Firebase(this);
         LocationData data = new LocationData(this,firebase);
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
                 }
                 else { // turn on
                     //turnOnAlert(true, true, true);
-//                    getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(nFrag).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(nFrag).commit();
                     item.setIcon(R.drawable.ic_on);
                     item.setTitle("TURN OFF");
                     poweredOn = true;
@@ -102,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
         v.vibrate(pattern, 0);
 
         // alarm
-        mediaPlayer = MediaPlayer.create(this, R.raw.uwotm8);
-        mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         // hide nothing fragment and show alert fragment
