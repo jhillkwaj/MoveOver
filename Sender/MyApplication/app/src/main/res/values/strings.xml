@@ -8,4 +8,9 @@
     <color name="blue">#42A5F5</color>
     <color name="red">#EF5350</color>
     <color name="white">#FFFFFF</color>
+    <string-array name="options_array">
+        <item>Police</item>
+        <item>Fire</item>
+        <item>Ambulance</item>
+    </string-array>
 </resources>

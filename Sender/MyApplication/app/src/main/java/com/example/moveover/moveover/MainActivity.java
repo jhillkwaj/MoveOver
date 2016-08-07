@@ -24,6 +24,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -41,12 +44,14 @@ public class MainActivity extends AppCompatActivity  {
 
     private LocationManager locationManager = null;
     private LocationListener locationListener = null;
+    private AdapterView.OnItemSelectedListener selectedListener = null;
     private static final String TAG = "Debug";
     private ToggleButton toggleButton1;
+    private SpinnerClass spin;
     private boolean active = false;
     private TextView inactiveText = null;
     private TextView broadcastText = null;
-
+    private int numberSelected = 0; //0 = police, 1 = fire, 2 = ambulance
     FirebaseAuth mAuth;
     String uid;
     static boolean signin = false;
@@ -66,6 +71,17 @@ public class MainActivity extends AppCompatActivity  {
         inactiveText = (TextView) findViewById(R.id.inactiveText);
         broadcastText = (TextView) findViewById(R.id.broadcastText);
         broadcastText.setVisibility(View.INVISIBLE);
+
+        Spinner spinner = (Spinner) findViewById(R.id.options_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.options_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spin = new SpinnerClass();
+        spinner.setOnItemSelectedListener(spin);
 
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
@@ -136,6 +152,8 @@ public class MainActivity extends AppCompatActivity  {
                     broadcastText.setVisibility(View.INVISIBLE);
                     inactiveText.setVisibility(View.VISIBLE);
                 }
+                numberSelected = spin.getNumSelected();
+                Log.v("numberSelected",numberSelected+"");
                 Log.d("test","click");
                 permission();
 
