@@ -11,7 +11,7 @@
         android:layout_height="139dp"
         android:id="@+id/imageView"
         android:layout_gravity="center"
-        android:src="@drawable/ic_action_name"
+        android:src="@drawable/happiness"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="160dp" />
@@ -24,7 +24,9 @@
         android:layout_gravity="center"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/font_size2"
-        android:textColor="@android:color/white" />
+        android:textSize="@dimen/font_size3"
+        android:textColor="@android:color/white"
+        android:id="@+id/textview_nothing"
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>

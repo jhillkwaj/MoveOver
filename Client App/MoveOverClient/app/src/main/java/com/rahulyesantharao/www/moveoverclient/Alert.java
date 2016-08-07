@@ -82,9 +82,10 @@ public class Alert extends Fragment {
         });
         TextView textView1 = (TextView) v.findViewById(R.id.alert_textView1);
         TextView textView2 = (TextView) v.findViewById(R.id.alert_textView2);
-        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/AvenirLTStdBook.otf");
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ProximaNova.otf");
         textView1.setTypeface(typeface);
         textView2.setTypeface(typeface);
+        stop.setTypeface(typeface);
         return v;
     }
 

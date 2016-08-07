@@ -11,19 +11,22 @@
         android:layout_height="139dp"
         android:id="@+id/imageView2"
         android:layout_gravity="center"
-        android:src="@drawable/ic_action_name"
+        android:src="@drawable/hospital"
+        android:layout_marginTop="120dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/stop"
         android:id="@+id/stopAlertBtn"
-        android:layout_below="@+id/ll_alert_tv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/font_size2" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -32,11 +35,12 @@
         android:layout_below="@+id/imageView2"
         android:gravity="top|center"
 
-        android:id="@+id/ll_alert_tv">
+        android:id="@+id/ll_alert_tv"
+        android:layout_marginTop="10dp">
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="0"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -66,7 +70,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="0"/>
     </LinearLayout>
 
 </RelativeLayout>

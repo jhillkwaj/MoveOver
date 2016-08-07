@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
 
 //        setContentView(R.layout.activity_main);
 
-        SpannableString s = new SpannableString("MOVEOVER");
-        s.setSpan(new TypefaceSpan("bigNoodle.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString s = new SpannableString("MoveOver");
+        s.setSpan(new TypefaceSpan(this, "ProximaNova.otf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(s);
 
