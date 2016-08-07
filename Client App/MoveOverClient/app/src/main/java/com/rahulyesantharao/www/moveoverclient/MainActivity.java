@@ -2,6 +2,7 @@ package com.rahulyesantharao.www.moveoverclient;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -23,30 +24,60 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     private String TAG_NOTHING = "nothing";
     private String TAG_ALERT = "alert";
     private NothingNearby nFrag = null;
-    public boolean poweredOn = false;
     private MediaPlayer mediaPlayer = null;
 
+    public boolean poweredOn = false;
+    private boolean alarmOn = false;
+    private boolean noiseOn = false;
 
+    private static final String STATE_POWER = "power";
+    private static final String STATE_ALARM = "alarm";
+    private static final String STATE_NOISE = "noise";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState!=null) {
+            Log.d(getClass().getSimpleName(), "saved states");
+            poweredOn = savedInstanceState.getBoolean(STATE_POWER);
+            alarmOn = savedInstanceState.getBoolean(STATE_ALARM);
+            noiseOn = savedInstanceState.getBoolean(STATE_NOISE);
+            Log.d(getClass().getSimpleName(), "powered on: " + poweredOn);
+            Log.d(getClass().getSimpleName(), "alarm on: " + alarmOn);
+            Log.d(getClass().getSimpleName(), "noise on: " + noiseOn);
+        }
+        else {
+            Log.d(getClass().getSimpleName(), "not saved states");
+        }
 
         nFrag = NothingNearby.newInstance();
         getSupportFragmentManager().beginTransaction().add(android.R.id.content, nFrag, TAG_NOTHING).commit();
         getSupportFragmentManager().beginTransaction().add(android.R.id.content, Alert.newInstance(true, true, true), TAG_ALERT).commit();
 
         getSupportFragmentManager().executePendingTransactions();
-        Fragment test = getSupportFragmentManager().findFragmentByTag(TAG_ALERT);
-        if(test==null) {
-            Log.d(getClass().getSimpleName(), "NULL ERROR");
+        if(!poweredOn) {
+            Fragment test = getSupportFragmentManager().findFragmentByTag(TAG_ALERT);
+            if (test == null) {
+                Log.d(getClass().getSimpleName(), "NULL ERROR");
+            } else {
+                Log.d(getClass().getSimpleName(), "Not null");
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(test).commit();
+            }
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
         }
         else {
-            Log.d(getClass().getSimpleName(), "Not null");
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(test).commit();
+            if(alarmOn) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
+                turnOnAlert(true, true, true);
+                if(!noiseOn) {
+                    turnOffAlertNoise();
+                }
+            }
+            else {
+                turnOffAlert();
+            }
         }
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).hide(nFrag).commit();
-
 //        setContentView(R.layout.activity_main);
 
         SpannableString s = new SpannableString("MoveOver");
@@ -91,13 +122,26 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
                     poweredOn = true;
                 }
                 return true;
+            case R.id.info:
+                Intent i = new Intent(this, ScrollingActivity.class);
+                startActivity(i);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean(STATE_POWER, poweredOn);
+        savedInstanceState.putBoolean(STATE_ALARM, alarmOn);
+        savedInstanceState.putBoolean(STATE_NOISE, noiseOn);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     // plays alert, vibrates, sends push notification, and adds alert fragment
     public void turnOnAlert(boolean police, boolean ambulance, boolean firetruck) {
-
+        alarmOn = true;
+        noiseOn = true;
         // vibrate
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {0,500,200};
@@ -127,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     }
 
     public void turnOffAlert() {
+        alarmOn=false;
         turnOffAlertNoise();
 
         // show nothing fragment and hide alert fragment
@@ -143,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
     }
 
     public void turnOffAlertNoise() {
+        noiseOn = false;
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.cancel();
         if(mediaPlayer!=null) mediaPlayer.pause();

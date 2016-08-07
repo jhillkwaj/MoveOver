@@ -5,5 +5,19 @@
     <string name="alert2">Emergency Vehicle Approaching</string>
     <string name="stop">STOP</string>
     <string name="info">Info/Rules</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="info_text">
+        "Emergency responders are estimated to have a fatality rate almost 4.8 times higher than the average driver. Most accidents occur in intersections and driveways, often resulting in the death of occupants of both vehicles due to high speed and angle of collisions.\n\n"
+
+        "In addition, emergency response times in major cities are unacceptably long, ranging from 6 to 12 minutes. In life or death situations such as fire or cardiac arrest, every second results counts: studies show that thousands of lives can be saved every year simply by lowering response times by a few seconds.\n\n"
+
+        "The Move Over Laws require that drivers immediately respond upon seeing or hearing emergency vehicles with sirens, such as\n"
+            "   &#8226;  Ambulances\n"
+            "   &#8226;  Police Cars\n"
+            "   &#8226;  Firetrucks\n"
+            "   &#8226;  Tow Trucks\n"
+
+    </string>
+    <string name="action_settings">Settings</string>
 
 </resources>
