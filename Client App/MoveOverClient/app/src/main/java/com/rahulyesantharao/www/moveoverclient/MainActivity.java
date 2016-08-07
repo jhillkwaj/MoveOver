@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements Alert.OnFragmentI
                 }
                 else { // turn on
                     //turnOnAlert(true, true, true);
-//                    getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(nFrag).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out).show(nFrag).commit();
                     item.setIcon(R.drawable.ic_on);
                     item.setTitle("TURN OFF");
                     poweredOn = true;
