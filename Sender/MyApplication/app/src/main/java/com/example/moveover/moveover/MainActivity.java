@@ -166,11 +166,6 @@ public class MainActivity extends AppCompatActivity  {
 
         if(!signin)
             signInAnonymously();
-        else
-        {
-            final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(db));
-            startActivity(intent);
-        }
 
     }
 
@@ -319,5 +314,5 @@ public class MainActivity extends AppCompatActivity  {
         DatabaseReference typeRef = FirebaseDatabase.getInstance().getReference("geo-loc/" + uid + "/type");
         typeRef.setValue(type);
     }
-    String db = "https://www.youtube.com/watch?v=oHg5SJYRHA0";
+
 }
